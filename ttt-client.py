@@ -61,6 +61,7 @@ class TicTacToe(Fl_Window):
 			wid.label("X")
 			self.csock.sendto("GAMEMOVE "+self.gamename+"\t"+str(self.butarray.index(wid)),(self.host,self.port))
 			self.can = False
+			wid.deactivate()
 		
 	def receive_data(self,fd):
 		self.data,self.d=self.csock.recvfrom(65536)
