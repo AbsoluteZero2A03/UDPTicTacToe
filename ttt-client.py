@@ -54,10 +54,10 @@ class TicTacToe(Fl_Window):
 	def send_j_cb(self,wid):
 		wid.deactivate()
 		self.gamen.deactivate()
-		self.csock.sendto("REQGAMENAME "+self.gamen.value(), (self.host,self.port))
+		self.csock.sendto("REQGAMENAME "+self.gamen.value().strip(), (self.host,self.port))
 	
 	def send_g_cb(self,wid):
-		if self.can == True:
+		if self.can == True and wid.label() == "":
 			wid.label("X")
 			self.csock.sendto("GAMEMOVE "+self.gamename+"\t"+str(self.butarray.index(wid)),(self.host,self.port))
 			self.can = False
@@ -67,9 +67,9 @@ class TicTacToe(Fl_Window):
 		print self.data
 		if self.data in ["YES", "NO"]:
 			if self.data=="NO":
-				self.csock.sendto("INITGAME "+self.gamen.value(),(self.host,self.port))
-			self.csock.sendto("JOINGAME "+self.gamen.value(),(self.host,self.port))
-			self.gamename = self.gamen.value()
+				self.csock.sendto("INITGAME "+self.gamen.value().strip(),(self.host,self.port))
+			self.csock.sendto("JOINGAME "+self.gamen.value().strip(),(self.host,self.port))
+			self.gamename = self.gamen.value().strip()
 		if ' '.join(self.data.split(' ')[:2]) == "JOINED GAME":
 			if self.data.split(' ')[2] == '0':
 				self.can = True
